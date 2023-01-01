@@ -15,7 +15,7 @@ fun normalizeTo360Range(a: Double) = (a + 360) % 360
 fun randomColor() = RGBA(Random.nextInt(), Random.nextInt(), Random.nextInt())
 
 suspend fun main() =
-    Korge(width = 512, height = 512, bgcolor = Colors["#2b2b2b"]) {
+    Korge(width = 512, height = 512, bgcolor = Colors["#dbdc36"]) {
         val paddle =
             Paddle(this, width / 4, height / 64, 4, Colors.BLUE, (width / 2) - (width / 8), height - (height / 10))
         val ball = Ball(this, paddle, 10.0, 4.0, Colors.RED)
