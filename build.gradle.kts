@@ -26,6 +26,15 @@ korge {
     //targetAndroidDirect()
 }
 
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                api("com.soywiz.korlibs.korma:korma:2.2.0")
+            }
+        }
+    }
+}
 
 dependencies {
     add("commonMainApi", project(":deps"))
