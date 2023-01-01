@@ -32,24 +32,11 @@ suspend fun main() =
             )
         }
 
-        var counter = 0
-
         addUpdater {
-            val paddleTime = measureTime {
-                paddle.update()
-            }
-            val ballTime = measureTime {
-                ball.update()
-            }
-            val scoreboardTime = measureTime {
-                scoreboard.update()
-            }
-            val bricksTime = measureTime {
-                bricks.filter { !it.isDead }.forEach { it.update() }
-            }
-            if (counter++ % 100 == 0) {
-                println("paddle: ${paddleTime * 10000}, ball: $ballTime, scoreboard: $scoreboardTime, bricks: $bricksTime")
-            }
+            paddle.update()
+            ball.update()
+            scoreboard.update()
+            bricks.filter { !it.isDead }.forEach { it.update() }
         }
 
         class MyScene : Scene() {
