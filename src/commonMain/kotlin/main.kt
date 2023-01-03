@@ -15,7 +15,7 @@ suspend fun main() =
 
         val bricks = mutableListOf<Brick>()
 
-        for (i in 0 until 1) {
+        for (i in 0 until 40) {
             bricks.add(
                 Brick(
                     this, ball, width / 11, height / 20, Colors.GREEN, (i % 10) * width / 10 + (width / 220),
