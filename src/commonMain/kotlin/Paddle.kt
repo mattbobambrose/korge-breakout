@@ -16,8 +16,8 @@ data class Paddle(
     fun update() {
         stage.input.keys.also { keys ->
             when {
-                keys[Key.LEFT] -> paddleRect.x -= speed
-                keys[Key.RIGHT] -> paddleRect.x += speed
+                keys[Key.LEFT] && paddleRect.x > 0 -> paddleRect.x -= speed
+                keys[Key.RIGHT] && paddleRect.x < stage.width - width -> paddleRect.x += speed
             }
         }
     }

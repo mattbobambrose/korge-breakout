@@ -41,8 +41,8 @@ data class Brick(
         !isDead && ball.ballCircle.x in (x..x + width) && ball.ballCircle.y in (y - (2 * ball.radius)..y) && ball.angle < 180.degrees
 
     private fun isLeftHit() =
-        !isDead && ball.ballCircle.x in (x - (2 * ball.radius)..x) && ball.ballCircle.y in (y..y + height) && (ball.angle < 90.degrees || ball.angle > 270.degrees)
+        !isDead && ball.ballCircle.x in (x - (2 * ball.radius)..x) && ball.ballCircle.y in (y..y + height - ball.radius) && (ball.angle < 90.degrees || ball.angle > 270.degrees)
 
     private fun isRightHit() =
-        !isDead && ball.ballCircle.x in (x + width - ball.radius..x + width) && ball.ballCircle.y in (y..y + height) && ball.angle.degrees in 90.0..270.0
+        !isDead && ball.ballCircle.x in (x + width - ball.radius..x + width) && ball.ballCircle.y in (y..y + height - ball.radius) && ball.angle.degrees in 90.0..270.0
 }
