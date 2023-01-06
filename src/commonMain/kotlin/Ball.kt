@@ -18,7 +18,7 @@ data class Ball(
         val ph = paddle.height / 2
         angle = when {
             (ballCircle.x in (paddle.paddleRect.x - radius..paddle.paddleRect.x + paddle.width - radius)
-                && ballCircle.y in ((paddle.paddleRect.y - paddle.height - radius)..(paddle.paddleRect.y + ph + radius))
+                && ballCircle.y in ((paddle.paddleRect.y - (2 * radius))..(paddle.paddleRect.y + ph + radius))
                 && angle < 180.degrees
                 ) -> normalizeTo360Range(360 - angle.degrees).degrees
 
