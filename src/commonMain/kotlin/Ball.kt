@@ -5,14 +5,14 @@ import com.soywiz.korma.geom.*
 data class Ball(
     val stage: Stage,
     val paddle: Paddle,
-    val radius: Double,
-    var speed: Double,
+    val radius: Int,
+    var speed: Int,
     val color: RGBA,
     var x: Double = paddle.x,
     var y: Double = paddle.y - paddle.height / 2 - radius,
     var angle: Angle = 45.0.degrees,
 ) {
-    val ballCircle = stage.circle(radius, color).xy(x, y)
+    val ballCircle = stage.circle(radius.toDouble(), color).xy(x, y)
 
     fun update() {
         val ph = paddle.height / 2
@@ -42,7 +42,6 @@ data class Ball(
                     x < 0 -> ballCircle.x = 0.0
                     x > ballStage.width - (2 * radius) -> ballCircle.x = ballStage.width - (2 * radius)
                     y < 0 -> ballCircle.y = 0.0
-//                    y > ballStage.height - (2 * radius) -> ballCircle.y = ballStage.height - (2 * radius)
                 }
             }
         }

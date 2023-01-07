@@ -4,8 +4,8 @@ import com.soywiz.korim.color.*
 
 data class Paddle(
     val stage: Stage,
-    val width: Double,
-    val height: Double,
+    val width: Int,
+    val height: Int,
     var speed: Int,
     val color: RGBA,
     var x: Double = 0.0,

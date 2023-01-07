@@ -7,15 +7,17 @@ data class EndScreen(
     val bricks: List<Brick>,
 ) {
     val endText: Text = stage.text("Game Over", 70.0).visible(false)
+    val halfStageWidth = stage.width / 2
+    val halfStageHeight = stage.height / 2
     fun update() {
         when {
             ball.ballCircle.y > stage.height -> {
                 endText.apply {
                     text = "Game Over"
                     visible = true
-                    xy(100.0, 170.0)
+                    xy(halfStageWidth - endText.width / 2, halfStageHeight - endText.height / 2)
                 }
-                ball.speed = 0.0
+                ball.speed = 0
                 paddle.speed = 0
             }
 
@@ -23,9 +25,9 @@ data class EndScreen(
                 endText.apply {
                     text = "You Win!"
                     visible = true
-                    xy(120.0, 170.0)
+                    xy(halfStageWidth - endText.width / 2, halfStageHeight - endText.height / 2)
                 }
-                ball.speed = 0.0
+                ball.speed = 0
                 paddle.speed = 0
             }
         }
