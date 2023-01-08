@@ -1,3 +1,4 @@
+import com.soywiz.korev.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.*
 import com.soywiz.korma.geom.*
@@ -9,7 +10,7 @@ data class Ball(
     var speed: Int,
     val color: RGBA,
     var x: Double = paddle.x,
-    var y: Double = paddle.y - paddle.height / 2 - radius,
+    var y: Double = paddle.y - (2 * radius),
     var angle: Angle = 45.0.degrees,
 ) {
     val ballCircle = stage.circle(radius.toDouble(), color).xy(x, y)
@@ -20,7 +21,15 @@ data class Ball(
             (ballCircle.x in (paddle.paddleRect.x - radius..paddle.paddleRect.x + paddle.width - radius)
                 && ballCircle.y in ((paddle.paddleRect.y - (2 * radius))..(paddle.paddleRect.y + ph + radius))
                 && angle < 180.degrees
-                ) -> normalizeTo360Range(360 - angle.degrees).degrees
+                ) -> {
+                stage.input.keys.also { keys ->
+                    when {
+                        keys[Key.LEFT] -> angle += 10.degrees
+                        keys[Key.RIGHT] -> angle -= 10.degrees
+                    }
+                }
+                normalizeTo360Range(360 - angle.degrees).degrees
+            }
 
             (ballCircle.x <= 0 || ballCircle.x >= stage.width - (2 * radius)) ->
                 normalizeTo360Range(180.0 - angle.degrees).degrees

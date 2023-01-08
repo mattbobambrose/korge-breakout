@@ -1,6 +1,7 @@
 import com.soywiz.korge.*
 import com.soywiz.korge.view.*
 import com.soywiz.korim.color.*
+import com.soywiz.korio.lang.*
 import com.soywiz.korio.net.http.*
 import kotlinx.serialization.json.*
 import kotlin.random.*
@@ -99,7 +100,8 @@ fun String.cleanString(): List<String> {
 
 suspend fun main() {
     val client = createHttpClient()
-    val resp = client.request(Http.Method.GET, "http://localhost:8081/config")
+    val sessionId = Environment["sessionId"] ?: -1
+    val resp = client.request(Http.Method.GET, "http://localhost:8081/config?sessionId=$sessionId")
     val json = Json.parseToJsonElement(resp.readAllString())
     val ballRadius = json.jsonObject["ballRadius"]?.jsonPrimitive?.int ?: error("No ballRadius")
     val ballSpeed = json.jsonObject["ballSpeed"]?.jsonPrimitive?.int ?: error("No ballSpeed")
@@ -109,11 +111,11 @@ suspend fun main() {
     val paddleSpeed = json.jsonObject["paddleSpeed"]?.jsonPrimitive?.int ?: error("No paddleSpeed")
     val paddleColor = json.jsonObject["paddleColor"]?.jsonPrimitive?.content ?: error("No paddleColor")
     val brickColor = json.jsonObject["brickColor"]?.jsonPrimitive?.content ?: error("No brickColor")
-    val brickSideBufferSize =
-        json.jsonObject["brickSideBufferSize"]?.jsonPrimitive?.double ?: error("No brickSideBufferSize")
-    val brickVerticalBufferSize =
-        json.jsonObject["brickVerticalBufferSize"]?.jsonPrimitive?.double ?: error("No brickVerticalBufferSize")
-    val pattern = json.jsonObject["pattern"]?.jsonPrimitive?.content ?: error("No pattern")
+    val brickSideBufferSpace =
+        json.jsonObject["brickSideBufferSpace"]?.jsonPrimitive?.double ?: error("No brickSideBufferSpace")
+    val brickVerticalBufferSpace =
+        json.jsonObject["brickVerticalBufferSpace"]?.jsonPrimitive?.double ?: error("No brickVerticalBufferSpace")
+    val brickPattern = json.jsonObject["brickPattern"]?.jsonPrimitive?.content ?: error("No brickPattern")
     val windowWidth = json.jsonObject["windowWidth"]?.jsonPrimitive?.int ?: error("No windowWidth")
     val windowHeight = json.jsonObject["windowHeight"]?.jsonPrimitive?.int ?: error("No windowHeight")
     val backgroundColor = json.jsonObject["backgroundColor"]?.jsonPrimitive?.content ?: error("No backgroundColor")
@@ -133,42 +135,16 @@ suspend fun main() {
             )
         val ball = Ball(this, paddle, ballRadius, ballSpeed, Colors[ballColor], width / 2, paddle.y)
 
-        val helloPattern = """
-            # # ### #    #    ###
-            # # #   #    #    # #
-            ### ### #    #    # #
-            # # #   #    #    # #
-            # # ### #### #### ###
-        """
-
-        val typeSomethingPattern = """
-                #######
-                   #    #   # #####  ######
-                   #     # #  #    # #
-                   #      #   #    # #####
-                   #      #   #####  #
-                   #      #   #      #
-                   #      #   #      ######
-
-  #####
- #     #  ####  #    # ###### ##### #    # # #    #  ####
- #       #    # ##  ## #        #   #    # # ##   # #    #
-  #####  #    # # ## # #####    #   ###### # # #  # #
-       # #    # #    # #        #   #    # # #  # # #  ###
- #     # #    # #    # #        #   #    # # #   ## #    #
-  #####   ####  #    # ######   #   #    # # #    #  ####
-
-        """
-
-        val bricks = pattern.toBricks(
-            this,
-            ball,
-            Colors[brickColor],
-            brickSideBufferSize,
-            brickVerticalBufferSize,
-            Colors[backgroundColor],
-            bricksRandomColors
-        )
+        val bricks =
+            brickPattern.toBricks(
+                this,
+                ball,
+                Colors[brickColor],
+                brickSideBufferSpace,
+                brickVerticalBufferSpace,
+                Colors[backgroundColor],
+                bricksRandomColors
+            )
         val scoreboard = Scoreboard(this, bricks, bricks.count { it.isDead })
         val endScreen = EndScreen(this, ball, paddle, bricks)
         solidRect(width, 1.0, Colors.WHITE)
