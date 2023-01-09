@@ -101,7 +101,7 @@ fun String.cleanString(): List<String> {
 suspend fun main() {
     val client = createHttpClient()
     val sessionId = Environment["sessionId"] ?: -1
-    val resp = client.request(Http.Method.GET, "http://localhost:8081/config?sessionId=$sessionId")
+    val resp = client.request(Http.Method.GET, "/config?sessionId=$sessionId")
     val json = Json.parseToJsonElement(resp.readAllString())
     val ballRadius = json.jsonObject["ballRadius"]?.jsonPrimitive?.int ?: error("No ballRadius")
     val ballSpeed = json.jsonObject["ballSpeed"]?.jsonPrimitive?.int ?: error("No ballSpeed")
